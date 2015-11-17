@@ -2,6 +2,7 @@
 Collection of utility methods.
 """
 
+import csv
 import os
 
 def error(msg):
@@ -29,4 +30,18 @@ def exists_file(path):
         path string
     """
     return os.path.isfile(path)
+
+def read_meter_file(path):
+    """
+    Returns a generator for the csv file containing meter information.
+
+    Params:
+        path string
+    """
+    with open(path, 'rb') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            yield row
+
+
 
