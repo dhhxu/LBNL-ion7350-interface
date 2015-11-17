@@ -1,12 +1,12 @@
-electricity,LBL_ION_01.34_309A,129
-electricity,LBL_ION_01.37_218A,129
-electricity,LBL_ION_02.54_70A1A,129
-electricity,LBL_ION_02.84_460A,129
-electricity,LBL_ION_02.88_65A,129
-electricity,LBL_ION_02.88_80A,129
-electricity,LBL_ION_02.88_198A,129
-electricity,LBL_ION_02.90_90A,129
-gas,LBL_ION_01.2_238A ,10001
-gas,LBL_ION_01.85_357A,10001
-gas,LBL_ION_02.90_90A ,254
-water,LBL_ION_02.90_90A ,255
+electricity,LBL_ION_01.34_309A,129,None
+electricity,LBL_ION_01.37_218A,129,None
+electricity,LBL_ION_02.54_70A1A,129,None
+electricity,LBL_ION_02.84_460A,129,None
+electricity,LBL_ION_02.88_65A,129,None
+electricity,LBL_ION_02.88_80A,129,None
+electricity,LBL_ION_02.88_198A,129,None
+electricity,LBL_ION_02.90_90A,129,None
+gas,LBL_ION_01.2_238A,10001,None
+gas,LBL_ION_01.85_357A,10001,None
+gas,LBL_ION_02.90_90A,254,None
+water,LBL_ION_02.90_90A,255,None
