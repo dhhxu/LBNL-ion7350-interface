@@ -19,13 +19,18 @@ of the script execution. This mode is intended to be used when new data
 needs to be fetched periodically.
 """
 
-from csv import writer
+
+import csv
+import os
+
 from datetime import datetime
 
-import os
-import pyodbc
-
-from LbnlIon7350Interface.utils import utils, read_creds
+import utils
+import read_creds
+import Cursor
+#from LbnlIon7350Interface.utils import utils
+#from LbnlIon7350Interface.utils import read_creds
+#from LbnlIon7350Interface.utils import Cursor
 
 def is_valid_interval(interval):
     """
@@ -36,9 +41,11 @@ def is_valid_interval(interval):
     """
     if not isinstance(interval, (int, long)):
         return False
-    if interval < 2 or interval > 12:
+    elif interval < 2 or interval > 12:
         return False
-    return True
+    else:
+        return True
+
 
 def get_date(date):
     """
@@ -56,15 +63,6 @@ def get_date(date):
         return date_object
     except ValueError:
         return None
-
-def exists_dir(path):
-    """
-    Returns true if path exists.
-
-    Params:
-        path string
-    """
-    return os.path.isdir(path)
 
 
 def run_batch(output_dir, start, end):
@@ -91,9 +89,33 @@ def run_batch(output_dir, start, end):
     elif start > end:
         utils.error('Start date must come before end date')
         return
-    elif not exists_dir(output_dir):
+    elif not utils.exists_dir(output_dir):
         utils.error('Output directory not found')
 
 def run_update(output_dir, interval):
     pass
 
+def read_meter_file(path):
+    """
+    Returns a generator for the csv file containing meter information.
+
+    Params:
+        path string
+    """
+    with open(path, 'rb') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            yield row
+
+
+def test():
+    path = '~/work/LbnlIon7350Interface/.ioninfo'
+    if not utils.exists_file(path):
+        utils.error('creds file does not exist')
+        return
+    generator = read_meter_file(path)
+
+if __name__ == '__main__':
+    import sys
+    sys.path.insert(0, '~/work/LbnlIon7350Interface/LbnlIon7350Interface/utils')
+    test()
