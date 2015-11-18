@@ -20,17 +20,12 @@ needs to be fetched periodically.
 """
 
 
-import csv
-import os
 
 from datetime import datetime
 
-import utils
-import read_creds
-import Cursor
-#from LbnlIon7350Interface.utils import utils
-#from LbnlIon7350Interface.utils import read_creds
-#from LbnlIon7350Interface.utils import Cursor
+from utils import utils
+from utils import read_creds
+from utils import Cursor
 
 def is_valid_interval(interval):
     """
@@ -91,31 +86,23 @@ def run_batch(output_dir, start, end):
         return
     elif not utils.exists_dir(output_dir):
         utils.error('Output directory not found')
+        return
 
 def run_update(output_dir, interval):
     pass
 
-def read_meter_file(path):
-    """
-    Returns a generator for the csv file containing meter information.
-
-    Params:
-        path string
-    """
-    with open(path, 'rb') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            yield row
-
-
 def test():
-    path = '~/work/LbnlIon7350Interface/.ioninfo'
-    if not utils.exists_file(path):
-        utils.error('creds file does not exist')
-        return
-    generator = read_meter_file(path)
+    start = '2012-11-01 00:15:00'
+    end = '2014-01-01 12:34:00'
+    s = get_date(start)
+    e = get_date(end)
+    print(s)
+    print(e)
+    ns = s.replace(minute=0, second=0)
+    print(ns)
+    ne = e.replace(minute=0, second=0)
+    print(ne)
 
 if __name__ == '__main__':
-    import sys
-    sys.path.insert(0, '~/work/LbnlIon7350Interface/LbnlIon7350Interface/utils')
     test()
+
