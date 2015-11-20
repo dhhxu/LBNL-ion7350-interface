@@ -1,5 +1,8 @@
 downloaded_data/
 json_data/
+logs/
+
 .ioninfo
 *.pyc
 *.bak
+.cache
