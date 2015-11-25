@@ -9,23 +9,16 @@ The dates are strings and must be in the following format:
     'YYYY-MM-DD HH:MM:SS'
 """
 
+import os
 import sys
 import LbnlIon7350Interface.getter
 import LbnlIon7350Interface.processor
 import LbnlIon7350Interface.loader
-import defaults
 
-from LbnlIon7350Interface.utils.utils import error
+from LbnlIon7350Interface.utils import utils
 from LbnlIon7350Interface.utils import read_creds
 from LbnlIon7350Interface.utils import Cursor
-
-def get_cnxn_str():
-    """
-    Returns a connection string that enables logging into the ION database.
-    """
-    user, pwd = read_creds.read(defaults.CREDS)
-    cnxn_str = 'DSN=ION;UID=%s;PWD=%s' % (user, pwd)
-    return cnxn_str
+from LbnlIon7350Interface.utils import defaults
 
 def _usage():
     string = "USAGE:\n\tpython batch.py [start date] [end date]\n"
@@ -33,7 +26,7 @@ def _usage():
 
 def main():
     if len(sys.argv) < 3:
-        error('Requires a start and end date')
+        utils.error('Requires a start and end date')
         _usage()
         exit()
     start = sys.argv[1]
@@ -41,3 +34,14 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    root = os.path.dirname(os.path.realpath(__file__))
+    print(root)
+    gen = utils.read_meter_file(defaults.meter_file(root))
+    for row in gen:
+        mid, name = utils.get_lucid_name_and_id(row)
+        print("id: %s | name: %s" % (mid, name))
+        date = utils.get_last_reading_date(row)
+
+
+

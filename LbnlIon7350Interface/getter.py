@@ -79,14 +79,11 @@ def run_batch(output_dir, start, end):
     e_date = get_date(end)
 
     if not s_date or not e_date:
-        utils.error('Invalid/missing dates')
-        return
+        raise ValueError('Invalid/missing dates')
     elif start > end:
-        utils.error('Start date must come before end date')
-        return
+        raise ValueError('Start date must come before end date')
     elif not utils.exists_dir(output_dir):
-        utils.error('Output directory not found')
-        return
+        raise ValueError('Output directory not found')
 
 def run_update(output_dir, interval):
     pass
@@ -104,5 +101,4 @@ def test():
     print(ne)
 
 if __name__ == '__main__':
-    test()
-
+    pass
