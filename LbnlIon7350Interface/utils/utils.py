@@ -81,7 +81,7 @@ def get_ion_qid(row):
     Params:
         row list [type, name, quantity id, date]
     """
-    return row[2]
+    return int(row[2])
 
 def get_last_reading_date(row):
     """
