@@ -17,6 +17,15 @@ def error(msg):
     """
     print('[ERROR] %s' % (msg))
 
+def warn(msg):
+    """
+    Print msg with [WARN] appended.
+
+    Params:
+        msg string
+    """
+    print('[WARN] %s' % (msg))
+
 def exists_dir(path):
     """
     Returns true if path exists.
@@ -34,15 +43,6 @@ def exists_file(path):
         path string
     """
     return os.path.isfile(path)
-
-def parent_dir():
-    """
-    Return the directory containing the file calling it.
-
-    Params:
-    None
-    """
-    return os.path.dirname(os.path.abspath(__file__))
 
 def get_cnxn_str(path):
     """
@@ -124,6 +124,19 @@ def get_lucid_name_and_id(row):
 
     meterName = "".join(['bldg', bldg_info])
     return meterId, meterName
+
+def make_lucid_ts(ts):
+    """
+    Convert the timestamp returned by a query on the ION database into a
+    format specified by the Lucid API.
+
+    Params:
+        ts string
+    """
+    parts = ts.split()
+    joined = "T".join(parts)
+    parts = joined.split(".")
+    return parts[0]
 
 
 if __name__ == '__main__':
