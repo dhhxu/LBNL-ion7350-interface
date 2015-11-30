@@ -100,7 +100,7 @@ def get_last_reading_date(row):
 
     return date
 
-def get_lucid_name_and_id(row):
+def get_lucid_id_and_name(row):
     """
     Returns a tuple containing the id and name (in that order) that will be
     associated with the meter in the input row.
@@ -137,6 +137,24 @@ def make_lucid_ts(ts):
     joined = "T".join(parts)
     parts = joined.split(".")
     return parts[0]
+
+def round_down(dt):
+    """
+    Rounds the datetime object to the nearest hour (seconds are truncated).
+
+    Params:
+        dt datetime object
+    """
+    return dt.replace(minute=0, second=0)
+
+def format_dt(dt):
+    """
+    Return the string representation of the datetime object in Lucid formato
+
+    Params:
+        dt datetime object.
+    """
+    return dt.strftime('%Y-%m-%dT%H:%M:%S')
 
 
 if __name__ == '__main__':
