@@ -31,17 +31,19 @@ def main():
         exit()
     start = sys.argv[1]
     end = sys.argv[2]
+    root = os.path.dirname(os.path.realpath(__file__))
+    getter.run_batch(root, start, end)
 
 if __name__ == '__main__':
     main()
 
-    root = os.path.dirname(os.path.realpath(__file__))
-    print(root)
-    gen = utils.read_meter_file(defaults.meter_file(root))
-    for row in gen:
-        mid, name = utils.get_lucid_name_and_id(row)
-        print("id: %s | name: %s" % (mid, name))
-        date = utils.get_last_reading_date(row)
+    # root = os.path.dirname(os.path.realpath(__file__))
+    # print(root)
+    # gen = utils.read_meter_file(defaults.meter_file(root))
+    # for row in gen:
+    #     mid, name = utils.get_lucid_name_and_id(row)
+    #     print("id: %s | name: %s" % (mid, name))
+    #     date = utils.get_last_reading_date(row)
 
 
 

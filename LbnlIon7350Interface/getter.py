@@ -60,10 +60,10 @@ def get_date(date):
         return None
 
 
-def run_batch(output_dir, start, end):
+def run_batch(root, start, end):
     """
     Run this script in batch mode. Download reading data whose timestamps
-    lie within start and end dates into output_dir.
+    lie within start and end dates.
 
     The date must follow the following format:
         YYYY-MM-DD HH:MM:SS
@@ -71,7 +71,7 @@ def run_batch(output_dir, start, end):
     where 24 hour time is used.
 
     Params:
-        output_dir string
+        root string
         start string
         end string
     """
@@ -82,11 +82,27 @@ def run_batch(output_dir, start, end):
         raise ValueError('Invalid/missing dates')
     elif start > end:
         raise ValueError('Start date must come before end date')
-    elif not utils.exists_dir(output_dir):
-        raise ValueError('Output directory not found')
+    elif not utils.exists_dir(root):
+        raise ValueError('Root directory not found')
 
-def run_update(output_dir, interval):
-    pass
+    print('working')
+
+def run_update(root, interval):
+    """
+    Run this script in update mode. Download reading data whose timestamps
+    lie within now - interval and now dates.
+
+    Interval must be a positive integer between 2 and 12.
+
+    Params:
+        root string
+        output_dir string
+        interval integer
+    """
+    if not is_valid_interval(interval):
+        raise ValueError('Invalid interval')
+
+
 
 def test():
     start = '2012-11-01 00:15:00'
