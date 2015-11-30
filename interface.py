@@ -14,6 +14,7 @@ from LbnlIon7350Interface import processor
 from LbnlIon7350Interface import loader
 
 from LbnlIon7350Interface.utils import utils
+from LbnlIon7350Interface.utils import defaults
 
 def _usage():
     string = "USAGE:\n\tpython interface.py [interval]\n"
@@ -21,14 +22,14 @@ def _usage():
 
 def main():
     if len(sys.argv) < 2:
-        utils.error('Requires an integer interval argument')
-        _usage()
-        exit()
-    try:
-        interval = int(sys.argv[1])
-    except ValueError:
-        utils.error('Requires an integer interval argument')
-        exit()
+        interval = defaults.INTERVAL
+    else:
+        try:
+            interval = int(sys.argv[1])
+        except ValueError:
+            utils.error('Requires an integer interval argument')
+            _usage()
+            exit()
     root = os.path.dirname(os.path.realpath(__file__))
     getter.run_update(root, interval)
 
