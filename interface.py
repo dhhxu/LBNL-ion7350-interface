@@ -9,15 +9,11 @@ object as per Lucid's Connector API, and pushes that object to BuildingOS.
 
 import os
 import sys
-import LbnlIon7350Interface.getter
-import LbnlIon7350Interface.processor
-import LbnlIon7350Interface.loader
+from LbnlIon7350Interface import getter
+from LbnlIon7350Interface import processor
+from LbnlIon7350Interface import loader
 
 from LbnlIon7350Interface.utils import utils
-from LbnlIon7350Interface.utils import read_creds
-from LbnlIon7350Interface.utils import Cursor
-from LbnlIon7350Interface.utils import defaults
-
 
 def _usage():
     string = "USAGE:\n\tpython interface.py [interval]\n"
@@ -33,7 +29,8 @@ def main():
     except ValueError:
         utils.error('Requires an integer interval argument')
         exit()
-    getter.run_update()
+    root = os.path.dirname(os.path.realpath(__file__))
+    getter.run_update(root, interval)
 
 if __name__ == '__main__':
     main()
