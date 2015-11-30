@@ -74,6 +74,15 @@ def get_ion_name(row):
     """
     return row[1]
 
+def get_ion_qid(row):
+    """
+    Return the quantity ID for the meter in the ION database.
+
+    Params:
+        row list [type, name, quantity id, date]
+    """
+    return row[2]
+
 def get_last_reading_date(row):
     """
     Returns the date of the most recent pulled data for the meter described by
