@@ -156,6 +156,19 @@ def format_dt(dt):
     """
     return dt.strftime('%Y-%m-%dT%H:%M:%S')
 
+def get_files_in_dir(path):
+    """
+    Return a list of absolute paths to files in the directory at path.
+
+    Directories are excluded.
+
+    Params:
+        path string
+    """
+    files = [os.path.join(path, f) for f in os.listdir(path)
+                if os.path.isfile(os.path.join(path, f))]
+    return files
+
 
 if __name__ == '__main__':
     pass
