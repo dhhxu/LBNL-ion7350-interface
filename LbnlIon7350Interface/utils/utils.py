@@ -5,6 +5,8 @@ Collection of utility methods.
 import csv
 import os
 import re
+import shutil
+
 import read_creds
 import defaults
 
@@ -168,6 +170,17 @@ def get_files_in_dir(path):
     files = [os.path.join(path, f) for f in os.listdir(path)
                 if os.path.isfile(os.path.join(path, f))]
     return files
+
+def move(src, dst):
+    """
+    Moves the file located at path src to directory dst.
+
+    Both src and dst must exist.
+    """
+    print("Moving file %s to directory %s ..." % (src, dst)),
+    shutil.move(src, dst)
+    print("done")
+
 
 
 if __name__ == '__main__':
