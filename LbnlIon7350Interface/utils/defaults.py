@@ -50,6 +50,20 @@ def log_file(root):
     """
     return os.path.join(root, 'logs', 'ion7350interface.log')
 
+def data_archive(root):
+    """
+    Returns the path to the directory to store processed csv data files. Root
+    is the project root directory.
+    """
+    return os.path.join(downloads(root), 'archive')
+
+def json_archive(root):
+    """
+    Returns the path to the directory to store uploaded json data files. Root
+    is the project root directory.
+    """
+    return os.path.join(json_dir(root), 'archive')
+
 # Default update interval frequency in hours
 INTERVAL = 4
 
