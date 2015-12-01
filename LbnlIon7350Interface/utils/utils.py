@@ -132,13 +132,16 @@ def make_lucid_ts(ts):
     Convert the timestamp returned by a query on the ION database into a
     format specified by the Lucid API.
 
+    Specifically, the returned timestamp is in ISO8601 format with trailing
+    microseconds removed.
+
     Params:
         ts string
     """
     parts = ts.split()
     joined = "T".join(parts)
     parts = joined.split(".")
-    return parts[0]
+    return parts[0] + "Z"
 
 def round_down(dt):
     """
