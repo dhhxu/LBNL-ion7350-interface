@@ -32,7 +32,8 @@ def main():
             exit()
     root = os.path.dirname(os.path.realpath(__file__))
     #getter.run_update(root, interval)
-    processor.create_json(root)
+    #processor.create_json(root)
+    loader.post_json_files(root)
 
 if __name__ == '__main__':
     main()
