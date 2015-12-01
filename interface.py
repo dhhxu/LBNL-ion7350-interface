@@ -31,7 +31,8 @@ def main():
             _usage()
             exit()
     root = os.path.dirname(os.path.realpath(__file__))
-    getter.run_update(root, interval)
+    #getter.run_update(root, interval)
+    processor.create_json(root)
 
 if __name__ == '__main__':
     main()
