@@ -67,6 +67,12 @@ def json_archive(root):
 # Default update interval frequency in hours
 INTERVAL = 4
 
+# Datasource URI
+URI = "bos://buildingos-json/lbnl"
+
+# URL to push data to
+BOS_URL = "https://rest.buildingos.com/json/readings/"
+
 def test():
     import utils
     root = '/home/daniel/work/LbnlIon7350Interface/'
