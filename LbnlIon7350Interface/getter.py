@@ -27,7 +27,6 @@ from datetime import datetime, timedelta
 
 from utils import defaults
 from utils import utils
-from utils import read_creds
 from utils import Cursor
 
 def is_valid_interval(interval):
@@ -85,7 +84,7 @@ def get_query_str(sid, qid, start, end):
         start string
         end string
     """
-    query = '''SELECT TOP 1 TimestampUTC, Value FROM
+    query = '''SELECT TimestampUTC, Value FROM
      ION_Data.dbo.DataLog2
      WHERE SourceID = %d AND QuantityID = %d
      AND TimestampUTC >= '%s' AND TimestampUTC < '%s';''' % (sid, qid, start, end)
