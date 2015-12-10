@@ -30,6 +30,8 @@ def main():
     end = sys.argv[2]
     root = os.path.dirname(os.path.realpath(__file__))
     getter.run_batch(root, start, end)
+    processor.create_json(root)
+    loader.post_json_files(root)
 
 if __name__ == '__main__':
     main()
