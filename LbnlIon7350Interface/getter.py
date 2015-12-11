@@ -38,11 +38,10 @@ def is_valid_interval(interval):
     """
     if not isinstance(interval, (int, long)):
         return False
-    elif interval < 2 or interval > 12:
+    elif interval < 1 or interval > 12:
         return False
     else:
         return True
-
 
 def get_date(date):
     """
@@ -61,33 +60,29 @@ def get_date(date):
     except ValueError:
         return None
 
-def get_source_query(name):
+def get_reading_from_name_query_str():
     """
-    Return the SQL query string that will get the ID associated with the meter name.
+    Return the SQL query string that will get reading data for a given meter
+    name and QuantityID in a date range.
 
-    Params:
+    To use the returned query string, the user needs to specify four (4)
+    parameters when passing the string to cursor.execute():
         name string
-    """
-    query = '''SELECT TOP 1 ID FROM
-    ION_Data.dbo.Source
-    WHERE Name = '%s';''' % (name)
-    return query
-
-def get_query_str(sid, qid, start, end):
-    """
-    Return the SQL query string that will get reading data for a given meter ID and
-    QuantityID in a date range.
-
-    Params:
-        sid integer
         qid integer
         start string
         end string
+
+    Params:
+        None
     """
-    query = '''SELECT TimestampUTC, Value FROM
-     ION_Data.dbo.DataLog2
-     WHERE SourceID = %d AND QuantityID = %d
-     AND TimestampUTC >= '%s' AND TimestampUTC < '%s';''' % (sid, qid, start, end)
+    query = '''SELECT D.TimestampUTC, D.Value
+     FROM ION_Data.dbo.DataLog2 D
+     INNER JOIN ION_Data.dbo.Source S
+     ON S.ID = D.SourceID
+     AND S.Name = ?
+     AND D.QuantityID = ?
+     AND D.TimestampUTC >= ?
+     AND D.TimestampUTC < ?'''
     return query
 
 def run_batch(root, start, end):
@@ -121,37 +116,24 @@ def run_batch(root, start, end):
     meter_file = defaults.meter_file(root)
 
     with Cursor.Cursor(cnxn_str) as cursor:
-
+        dq = get_reading_from_name_query_str()
         meters = utils.read_meter_file(meter_file)
         for m in meters:
             ion_name = utils.get_ion_name(m)
             qid = utils.get_ion_qid(m)
-            src_query = get_source_query(ion_name)
-
             try:
-                cursor.execute(src_query)
+                cursor.execute(dq, ion_name, qid, str(s_date), str(e_date)))
             except pyodbc.Error:
-                utils.error('Failed to get ID for meter %s' % (ion_name))
-                continue
-
-            result = cursor.fetchone()
-            if not result:
-                utils.error('Meter %s does not exist' % (ion_name))
-                continue
-
-            sid = result.ID
-            data_query = get_query_str(sid, qid, str(s_date), str(e_date))
-            try:
-                cursor.execute(data_query)
-            except pyodbc.Error:
-                utils.error('Failed to get data for meter %s qid %d' % (ion_name, qid))
+                utils.error('Problem with query to get data for meter %s qid %d' % (ion_name, qid))
                 continue
             if not cursor:
                 utils.warn('No data found for meter %s qid %d' % (ion_name, qid))
                 continue
 
             meterId, meterName = utils.get_lucid_id_and_name(m)
-            dl_fname = "%sT%s.csv" % (meterId, utils.make_lucid_ts(str(s_date)))
+            s_date_str = utils.make_lucid_ts(str(s_date))
+            e_date_str = utils.make_lucid_ts(str(e_date))
+            dl_fname = "%sT%sT%s.csv" % (meterId, s_date_str, e_date_str)
             path = os.path.join(output_dir, dl_fname)
 
             print('Writing data for meter %s qid %d to file: %s ...' % (ion_name, qid, path)),
@@ -166,6 +148,8 @@ def run_batch(root, start, end):
                     writer.writerow(data_row)
                 print('done')
 
+            # TESTING PURPOSE
+            # Delete below line before doing real thing!
             break
 
 def run_update(root, interval):
@@ -173,7 +157,7 @@ def run_update(root, interval):
     Run this script in update mode. Download reading data whose timestamps
     lie within now - interval and now dates.
 
-    Interval must be a positive integer between 2 and 12.
+    Interval must be a positive integer between 1 and 12.
 
     Params:
         root string
