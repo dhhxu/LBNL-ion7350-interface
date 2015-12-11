@@ -22,7 +22,7 @@ def _usage():
     print(string)
 
 def main():
-    if len(sys.argv) < 3:
+    if len(sys.argv) != 3:
         utils.error('Requires a start and end date')
         _usage()
         exit()
