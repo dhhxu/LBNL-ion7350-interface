@@ -122,7 +122,7 @@ def run_batch(root, start, end):
             ion_name = utils.get_ion_name(m)
             qid = utils.get_ion_qid(m)
             try:
-                cursor.execute(dq, ion_name, qid, str(s_date), str(e_date)))
+                cursor.execute(dq, ion_name, qid, str(s_date), str(e_date))
             except pyodbc.Error:
                 utils.error('Problem with query to get data for meter %s qid %d' % (ion_name, qid))
                 continue
