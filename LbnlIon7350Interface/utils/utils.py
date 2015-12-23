@@ -39,7 +39,7 @@ def print_time(msg):
     Params:
         msg string
     """
-    t = datetime.now()
+    t = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     print('--- [ %s ] %s ---' % (t, msg))
 
 def exists_dir(path):
