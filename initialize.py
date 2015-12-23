@@ -53,11 +53,8 @@ def create_catalog(root):
 def main():
     root = os.path.dirname(os.path.realpath(__file__))
     create_catalog(root)
-    # loader.post_json_files(root)
+    loader.post_json_files(root)
 
 if __name__ == '__main__':
     main()
-
-
-
 
