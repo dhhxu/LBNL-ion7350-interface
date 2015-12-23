@@ -126,7 +126,7 @@ def run_batch(root, start, end):
             except pyodbc.Error:
                 utils.error('Problem with query to get data for meter %s qid %d' % (ion_name, qid))
                 continue
-            if not cursor:
+            if cursor.rowcount == 0:
                 utils.warn('No data found for meter %s qid %d' % (ion_name, qid))
                 continue
 
@@ -147,10 +147,6 @@ def run_batch(root, start, end):
                     data_row = [utils.make_lucid_ts(ts), val]
                     writer.writerow(data_row)
                 print('done')
-
-            # TESTING PURPOSE
-            # Delete below line before doing real thing!
-            break
 
 def run_update(root, interval):
     """
@@ -183,8 +179,6 @@ def test():
     print(ns)
     ne = e.replace(minute=0, second=0)
     print(ne)
-
-    # print(defaults.INTERVAL)
 
 if __name__ == '__main__':
     test()
