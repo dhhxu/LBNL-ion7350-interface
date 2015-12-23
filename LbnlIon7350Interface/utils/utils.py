@@ -8,7 +8,8 @@ import re
 import shutil
 
 import read_creds
-import defaults
+
+from datetime import datetime
 
 def error(msg):
     """
@@ -27,6 +28,19 @@ def warn(msg):
         msg string
     """
     print('[WARN] %s' % (msg))
+
+def print_time(msg):
+    """
+    Print msg with accompanying timestamp.
+
+    Prints:
+        --- [ time ] msg ---
+
+    Params:
+        msg string
+    """
+    t = datetime.now()
+    print('--- [ %s ] %s ---' % (t, msg))
 
 def exists_dir(path):
     """
@@ -154,7 +168,7 @@ def round_down(dt):
 
 def format_dt(dt):
     """
-    Return the string representation of the datetime object in Lucid formato
+    Return the string representation of the datetime object in Lucid format.
 
     Params:
         dt datetime object.
@@ -178,12 +192,17 @@ def move(src, dst):
     """
     Moves the file located at path src to directory dst.
 
-    Both src and dst must exist.
+    Both src and dst must exist. Furthermore, dst must not
+    have a file with the same filename as src. Otherwise
+    an error will be thrown.
+
+    Params:
+        src string
+        dst string
     """
     print("Moving file %s to directory %s ..." % (src, dst)),
     shutil.move(src, dst)
     print("done")
-
 
 
 if __name__ == '__main__':
