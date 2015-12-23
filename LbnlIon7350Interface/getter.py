@@ -115,6 +115,8 @@ def run_batch(root, start, end):
     output_dir = defaults.downloads(root)
     meter_file = defaults.meter_file(root)
 
+    utils.print_time('GETTER START')
+
     with Cursor.Cursor(cnxn_str) as cursor:
         dq = get_reading_from_name_query_str()
         meters = utils.read_meter_file(meter_file)
@@ -147,6 +149,8 @@ def run_batch(root, start, end):
                     data_row = [utils.make_lucid_ts(ts), val]
                     writer.writerow(data_row)
                 print('done')
+
+    utils.print_time('GETTER END')
 
 def run_update(root, interval):
     """

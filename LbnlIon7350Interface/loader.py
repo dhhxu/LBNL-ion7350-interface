@@ -28,7 +28,7 @@ def post_json_files(root):
         utils.warn('No JSON files to process. Terminating')
         exit()
 
-    print('Begin JSON file posting:')
+    utils.print_time('LOADER START')
     for json_file in json_files:
         print('Posting file: %s ...' % (json_file)),
         with open(json_file, 'rb') as jf:
@@ -36,12 +36,11 @@ def post_json_files(root):
             response = requests.post(post_url, files=payload)
             print('done')
 
-            text = response.text
-            print('Server response: %s' % (text))
+            print('Server response: %s' % (response.text))
 
         utils.move(json_file, archive)
 
-    print('End JSON file posting')
+    utils.print_time('LOADER END')
 
 def test():
     print(defaults.BOS_URL)

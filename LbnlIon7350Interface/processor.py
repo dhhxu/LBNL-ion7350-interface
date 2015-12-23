@@ -46,7 +46,8 @@ def create_json(root):
         utils.warn('No csv files to process. Terminating')
         exit()
 
-    print('Begin JSON file generation:')
+    utils.print_time('PROCESSOR START')
+    print('Begin JSON file generation')
     for data_file in data_files:
         with open(data_file, 'rb') as f:
             reader = csv.reader(f)
@@ -83,6 +84,7 @@ def create_json(root):
         json.dump(json_file, out)
         print('done')
 
+    utils.print_time('PROCESSOR END')
 
 def test():
     print(defaults.INTERVAL)
