@@ -86,8 +86,3 @@ def create_json(root):
 
     utils.print_time('PROCESSOR END')
 
-def test():
-    print(defaults.INTERVAL)
-
-if __name__ == '__main__':
-    test()

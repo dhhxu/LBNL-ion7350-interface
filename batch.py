@@ -11,10 +11,10 @@ The dates are strings and must be in the following format:
 
 import os
 import sys
+
 from LbnlIon7350Interface import getter
 from LbnlIon7350Interface import processor
 from LbnlIon7350Interface import loader
-
 from LbnlIon7350Interface.utils import utils
 
 def _usage():
@@ -35,7 +35,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
 

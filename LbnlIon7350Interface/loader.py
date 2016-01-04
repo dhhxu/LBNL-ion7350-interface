@@ -42,8 +42,3 @@ def post_json_files(root):
 
     utils.print_time('LOADER END')
 
-def test():
-    print(defaults.BOS_URL)
-
-if __name__ == '__main__':
-    test()

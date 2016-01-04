@@ -9,12 +9,12 @@ object as per Lucid's Connector API, and pushes that object to BuildingOS.
 
 import os
 import sys
+
 from LbnlIon7350Interface import getter
 from LbnlIon7350Interface import processor
 from LbnlIon7350Interface import loader
-
-from LbnlIon7350Interface.utils import utils
 from LbnlIon7350Interface.utils import defaults
+from LbnlIon7350Interface.utils import utils
 
 def _usage():
     string = "USAGE:\n\tpython interface.py [interval]\n"

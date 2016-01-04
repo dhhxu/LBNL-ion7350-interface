@@ -172,17 +172,3 @@ def run_update(root, interval):
     prev_dt = curr_dt - timedelta(hours=interval)
     run_batch(root, utils.format_dt(prev_dt), utils.format_dt(curr_dt))
 
-def test():
-    start = '2012-11-01T00:15:00'
-    end = '2014-01-01T12:34:00'
-    s = get_date(start)
-    e = get_date(end)
-    print(s)
-    print(e)
-    ns = s.replace(minute=0, second=0)
-    print(ns)
-    ne = e.replace(minute=0, second=0)
-    print(ne)
-
-if __name__ == '__main__':
-    test()
