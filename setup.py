@@ -16,7 +16,8 @@ def safe_mkdir(path):
     """
     Creates a directory at path, if it doesn't exist already.
 
-    Raises a ValueError if path is not a valid directory name.
+    If path already exists, does nothing. Raises a ValueError
+    if path is not a valid directory name.
 
     Params:
         path string
@@ -81,27 +82,28 @@ def make_creds_file(root):
             else:
                 print('Unknown input. Please try again.')
 
-    user = get_username()
     try:
+        user = get_username()
         pwd = get_password()
     except KeyboardInterrupt:
-        raise IOError('No password entered')
+        raise IOError('User cancelled operation')
 
     with open(path, 'wb') as cf:
         cf.write('%s\n' % (user))
         cf.write(pwd)
     os.chmod(path, 0400)
 
+
 def main():
     root = os.path.dirname(os.path.realpath(__file__))
     try:
-        safe_mkdir(os.path.join(root, 'downloaded_data2/archive'))
-        safe_mkdir(os.path.join(root, 'json_data2/archive'))
+        safe_mkdir(os.path.join(root, 'downloaded_data/archive'))
+        safe_mkdir(os.path.join(root, 'json_data/archive'))
         make_creds_file(root)
     except ValueError as err:
-        print('IOError: %s' % (str(err)))
+        utils.error(str(err))
     except IOError as ierr:
-        print('IOError: %s' % (str(ierr)))
+        utils.error(str(ierr))
 
 if __name__ == '__main__':
     main()
