@@ -102,7 +102,7 @@ def test_run_update_bad_interval():
     """
     Check that run_update raises error for illegal interval argument
     """
-    root = '~/'
+    root = '~'
     interval = -1
     with pytest.raises(ValueError) as bad_interval:
         getter.run_update(root, interval)

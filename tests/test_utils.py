@@ -2,8 +2,6 @@
 Unit tests for utils.py
 """
 
-from os import remove
-
 import LbnlIon7350Interface.LbnlIon7350Interface.utils.utils as utils
 
 def test_not_exists_dir():
@@ -15,10 +13,17 @@ def test_not_exists_dir():
 
 def test_exists_dir():
     """
-    Check that exists_dir returns True for valid path
+    Check that exists_dir returns True for root directory.
     """
     existent = '/'
     assert utils.exists_dir(existent)
+
+def test_exists_tmpdir(tmpdir):
+    """
+    Check that exists_dir returns True on a temporary directory.
+    """
+    path = tmpdir.mkdir('test_exists')
+    assert utils.exists_dir(str(path))
 
 def test_not_exists_file():
     """
@@ -27,29 +32,24 @@ def test_not_exists_file():
     nonexistent = '~/blabjfajdfd'
     assert not utils.exists_file(nonexistent)
 
-def test_exists_file():
+def test_exists_file(tmpdir):
     """
     Check that exists_file returns True for a temp file.
     The temp file is deleted after this test finishes.
     """
-    existent = 'dummy.txt'
-    with open(existent, 'wb') as f:
-        f.write('hello world!')
-        assert utils.exists_file(existent)
-        assert not utils.exists_dir(existent)
-        remove(existent)
+    existent = tmpdir.mkdir('test_file').join('dummy.txt')
+    existent.write('hello world!')
+    path = str(existent)
+    assert utils.exists_file(path)
+    assert not utils.exists_dir(path)
 
-def test_get_cnxn_str():
+def test_get_cnxn_str(tmpdir):
     """
     Check that get_cnxn_str properly reads from a temporary credentials file
     and returns a correct login string.
     """
-    tmp = 'creds.txt'
-    with open(tmp, 'wb') as cf:
-        cf.write('user\n')
-        cf.write('password')
-    cnxn_str = utils.get_cnxn_str(tmp)
+    cf = tmpdir.mkdir('test_get_cnxn_str').join('creds.txt')
+    cf.write('user\npassword')
+    cnxn_str = utils.get_cnxn_str(str(cf))
     assert cnxn_str == 'DSN=ION;UID=user;PWD=password'
-
-    remove(tmp)
 
