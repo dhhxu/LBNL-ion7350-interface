@@ -89,8 +89,7 @@ def make_creds_file(root):
         raise IOError('User cancelled operation')
 
     with open(path, 'wb') as cf:
-        cf.write('%s\n' % (user))
-        cf.write(pwd)
+        cf.write('%s\n%s\n' % (user, pwd))
     os.chmod(path, 0400)
 
 
