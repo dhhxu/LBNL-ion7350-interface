@@ -92,12 +92,15 @@ def make_creds_file(root):
         cf.write('%s\n%s\n' % (user, pwd))
     os.chmod(path, 0400)
 
-
 def main():
     root = os.path.dirname(os.path.realpath(__file__))
     try:
         safe_mkdir(os.path.join(root, 'downloaded_data/archive'))
         safe_mkdir(os.path.join(root, 'json_data/archive'))
+        log_dir = os.path.join(root, 'logs')
+        safe_mkdir(log_dir)
+        log_file = open(os.path.join(log_dir, "ion7350interface.log"), 'a+')
+        log_file.close()
         make_creds_file(root)
     except ValueError as err:
         utils.error(str(err))
