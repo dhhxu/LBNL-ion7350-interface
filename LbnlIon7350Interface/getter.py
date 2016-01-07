@@ -149,8 +149,8 @@ def run_batch(root, start, end):
                     data_row = [utils.make_lucid_ts(ts), val]
                     writer.writerow(data_row)
                 print('done')
-
     utils.print_time('GETTER END')
+
 
 def run_update(root, interval):
     """
@@ -167,8 +167,8 @@ def run_update(root, interval):
     if not is_valid_interval(interval):
         raise ValueError('Invalid interval')
 
-    curr_dt = datetime.now()
-    curr_dt = utils.round_down(curr_dt)
-    prev_dt = curr_dt - timedelta(hours=interval)
-    run_batch(root, utils.format_dt(prev_dt), utils.format_dt(curr_dt))
+    curr_dt_utc = datetime.utcnow()
+    curr_dt_utc = utils.round_down(curr_dt_utc)
+    prev_dt_utc = curr_dt_utc - timedelta(hours=interval)
+    run_batch(root, utils.format_dt(prev_dt_utc), utils.format_dt(curr_dt_utc))
 
