@@ -42,6 +42,20 @@ def is_valid_interval(interval):
         return False
     else:
         return True
+        
+def is_valid_index(idx):
+    """
+    Returns true if idx is a non-negative integer.
+    
+    Params:
+        idx integer
+    """
+    if not isinstance(idx, (int, long)):
+        return False
+    elif idx < 0:
+        return False
+    else:
+        return True
 
 def get_date(date):
     """
@@ -85,7 +99,7 @@ def get_reading_from_name_query_str():
      AND D.TimestampUTC < ?'''
     return query
 
-def run_batch(root, start, end):
+def run_batch(root, start, end, idx=None):
     """
     Run this script in batch mode. Download reading data whose timestamps
     lie within start and end dates.
@@ -94,11 +108,17 @@ def run_batch(root, start, end):
         YYYY-MM-DDTHH:MM:SS
 
     where 24 hour time is used.
+    
+    If idx is a non-negative integer, instead download the meter at that index.
+    idx is zero-indexed. If idx is greater than the number of meters, nothing
+    happens; no files are downloaded. Default behavior is to download data for
+    all meters.
 
     Params:
         root string
         start string
         end string
+        idx integer
     """
     s_date = get_date(start)
     e_date = get_date(end)
@@ -109,6 +129,8 @@ def run_batch(root, start, end):
         raise ValueError('Start date must come before end date')
     elif not utils.exists_dir(root):
         raise ValueError('Root directory not found')
+    elif idx is not None and not is_valid_index(idx):
+        raise ValueError('Index must be non-negative integer')
 
     creds_file = defaults.creds(root)
     cnxn_str = utils.get_cnxn_str(creds_file)
@@ -120,7 +142,9 @@ def run_batch(root, start, end):
     with Cursor.Cursor(cnxn_str) as cursor:
         dq = get_reading_from_name_query_str()
         meters = utils.read_meter_file(meter_file)
-        for m in meters:
+        for i, m in enumerate(meters):
+            if idx is not None and idx != i:
+                continue
             ion_name = utils.get_ion_name(m)
             qid = utils.get_ion_qid(m)
             try:
@@ -150,7 +174,6 @@ def run_batch(root, start, end):
                     writer.writerow(data_row)
                 print('done')
     utils.print_time('GETTER END')
-
 
 def run_update(root, interval):
     """
