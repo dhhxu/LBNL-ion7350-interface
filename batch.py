@@ -18,18 +18,21 @@ from LbnlIon7350Interface import loader
 from LbnlIon7350Interface.utils import utils
 
 def _usage():
-    string = "USAGE:\n\tpython batch.py [start date] [end date]\n"
+    string = "USAGE:\n\tpython batch.py [start date] [end date] [meter index]\n"
     print(string)
 
 def main():
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 3:
         utils.error('Requires a start and end date')
         _usage()
         exit()
     start = sys.argv[1]
     end = sys.argv[2]
+    idx = None
+    if len(sys.argv) == 4:
+        idx = sys.argv[3]
     root = os.path.dirname(os.path.realpath(__file__))
-    getter.run_batch(root, start, end)
+    getter.run_batch(root, start, end, idx)
     processor.create_json(root)
     loader.post_json_files(root)
 
