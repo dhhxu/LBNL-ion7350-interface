@@ -21,14 +21,14 @@ def test_invalid_interval():
     assert not getter.is_valid_interval(13)
     assert not getter.is_valid_interval(5.0)
     assert not getter.is_valid_interval(-4)
-    
+
 def test_valid_index():
     """
     Check that is_valid_index works correctly for non-negative integers
     """
     assert getter.is_valid_index(1)
     assert getter.is_valid_index(100)
-    
+
 def test_invalid_index():
     """
     Check that is_valid_index works correctly for negative integers and
