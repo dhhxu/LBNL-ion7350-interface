@@ -30,11 +30,15 @@ def main():
     end = sys.argv[2]
     idx = None
     if len(sys.argv) == 4:
-        idx = sys.argv[3]
+        try:
+            idx = int(sys.argv[3])
+        except ValueError:
+            utils.error("Index argument must be an integer")
+            sys.exit(1)
     root = os.path.dirname(os.path.realpath(__file__))
     getter.run_batch(root, start, end, idx)
     processor.create_json(root)
-    loader.post_json_files(root)
+    #loader.post_json_files(root)
 
 if __name__ == '__main__':
     main()

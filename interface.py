@@ -29,7 +29,7 @@ def main():
         except ValueError:
             utils.error('Requires an integer interval argument')
             _usage()
-            exit()
+            sys.exit(1)
     root = os.path.dirname(os.path.realpath(__file__))
     getter.run_update(root, interval)
     processor.create_json(root)
