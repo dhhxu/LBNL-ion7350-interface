@@ -86,11 +86,11 @@ def run(root):
         earliest = get_timestamps(cursor, meters, earliest_query)
         latest = get_timestamps(cursor, meters, latest_query)
 
-        for m in meters:
+        for i, m in enumerate(meters):
             ion_name = utils.get_ion_name(m)
             earliest_ts = earliest[ion_name]
             latest_ts = latest[ion_name]
-            print("%s\tStart: %s\tEnd: %s" % (ion_name, earliest_ts, latest_ts))
+            print(" %d)\t%s\tStart: %s\tEnd: %s" % (i, ion_name, earliest_ts, latest_ts))
 
 def main():
     root = os.path.dirname(os.path.realpath(__file__))
